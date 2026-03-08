@@ -1,0 +1,4 @@
+# Dipendenze del progetto
+psutil>=5.9.0        # Interrogare CPU, RAM, dischi, rete
+py-cpuinfo>=9.0.0    # Info dettagliate CPU
+click>=8.1.0         # CLI professionale
