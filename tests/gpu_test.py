@@ -19,24 +19,30 @@ class GPUTest:
 
     def _gather_info(self) -> Dict[str, Any]:
         gpus = gpu.GPUInfo.detect_gpus_lspci()
-
-        smi_tools = []
-        if shutil.which("nvidia-smi"):
-            nvidia_gpus = gpu.GPUInfo.detect_nvidia_gpus()
-            gpus.extend(nvidia_gpus)
-            smi_tools.append("nvidia-smi")
-        elif shutil.which("rocm-smi"):
-            rocm_gpus = gpu.GPUInfo.detect_rocm_gpus()
-            gpus.extend(rocm_gpus)
-            smi_tools.append("rocm-smi")
-
-        return {
-            "id": len(gpus),  # numero GPU rilevate
-            "gpus": gpus,
-            "smi_tools": smi_tools,
-            f"nvidia_smi": shutil.which("nvidia-smi") is not None,
-            "rocm_smi": shutil.which("rocm-smi") is not None,
-        }
+        smi_tools = "nvidia-smi" if shutil.which("nvidia-smi") else "rocm-smi" if shutil.which("rocm-smi") else "none"
+        if smi_tools == "nvidia-smi":
+            return {
+                "id": len(gpus),  # numero GPU rilevate
+                "gpus": gpus,
+                "smi_tools": smi_tools,
+                "nvidia_smi": shutil.which("nvidia-smi") is not None,
+            }
+        elif smi_tools == "rocm-smi":
+            return {
+                "id": len(gpus),  # numero GPU rilevate
+                "gpus": gpus,
+                "smi_tools": smi_tools,
+                "rocm_smi": shutil.which("rocm-smi") is not None,
+            }
+        else:
+            return {
+                "id": len(gpus),  # numero GPU rilevate
+                "gpus": gpus,
+                "smi_tools": smi_tools,
+                "nvidia_smi": shutil.which("nvidia-smi") is not None,
+                "rocm_smi": shutil.which("rocm-smi") is not None,
+                "intel_gpu_top": shutil.which("intel_gpu_top") is not None,
+            }
 
     def _evaluate(self, info: Dict[str, Any]) -> TestResult:
         if info["id"] == 0:

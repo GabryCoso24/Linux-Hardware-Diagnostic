@@ -231,6 +231,5 @@ class GPUInfo:
         GPUInfo.amd_info()
         GPUInfo.intel_info(gpus)
 
-
 if __name__ == "__main__":
     GPUInfo.gpu_info()
