@@ -101,3 +101,5 @@ class DiskInfo:
                     return dev.get("sectors")
         except Exception:
             return None
+
+    
