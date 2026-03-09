@@ -21,12 +21,12 @@ class CPUTest:
     def _gather_info(self) -> Dict[str, Any]:
         """Collect all CPU metrics used by the test."""
         return {
-            "cores": cpu_info.core_count(),
-            "usage": cpu_info.cpu_usage(),
-            "core_usage": cpu_info.core_usage(),
-            "frequency": cpu_info.cpu_freq(),
-            "status": cpu_info.cpu_status(),
-            "temperature": cpu_info.cpu_temperature()
+            "cores": cpu_info.CPUInfo.core_count(),
+            "usage": cpu_info.CPUInfo.cpu_usage(),
+            "core_usage": cpu_info.CPUInfo.core_usage(),
+            "frequency": cpu_info.CPUInfo.cpu_freq(),
+            "status": cpu_info.CPUInfo.cpu_status(),
+            "temperature": cpu_info.CPUInfo.cpu_temperature()
         }
     
     def _evaluate(self, info: dict) -> TestResult:
