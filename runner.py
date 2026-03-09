@@ -1,5 +1,7 @@
 import tests.cpu_test as cpu
 from enum import Enum
+import tests.disks_test as disks
+from tests.test_base import TestStatus
 
 class ComponentStatus(Enum):
     OK = "ok"
@@ -7,4 +9,34 @@ class ComponentStatus(Enum):
     ERROR = "error"
 
 def cpu_test_runner():
-    print(cpu.cpu_test())
+    result = cpu.cpu_test()
+    status = ComponentStatus.OK
+
+    if result.status == TestStatus.FAIL:
+        status = ComponentStatus.ERROR
+    elif result.status == TestStatus.WARN:
+        status = ComponentStatus.WARNING
+
+    return {
+        "component": "CPU",
+        "status": status.value,
+        "message": result.message,
+        "data": result.data
+    }
+
+
+def disks_test_runner():
+    result = disks.disks_test()
+    status = ComponentStatus.OK
+
+    if result.status == TestStatus.FAIL:
+        status = ComponentStatus.ERROR
+    elif result.status == TestStatus.WARN:
+        status = ComponentStatus.WARNING
+
+    return {
+        "component": "Disks",
+        "status": status.value,
+        "message": result.message,
+        "data": result.data
+    }

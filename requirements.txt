@@ -1,4 +1,5 @@
-# Dipendenze del progetto
-psutil>=5.9.0        # Interrogare CPU, RAM, dischi, rete
-py-cpuinfo>=9.0.0    # Info dettagliate CPU
-click>=8.1.0         # CLI professionale
+# Project dependencies
+psutil>=5.9.0        # Query CPU, RAM, disks, and network metrics
+py-cpuinfo>=9.0.0    # Detailed CPU information
+click>=8.1.0         # CLI framework
+pySMART>=1.2.0       # S.M.A.R.T. data for advanced disk diagnostics
