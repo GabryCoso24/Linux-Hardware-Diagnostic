@@ -40,3 +40,10 @@ def disks_test_runner():
         "message": result.message,
         "data": result.data
     }
+
+def generate_report():
+    report = {
+        "cpu": cpu_test_runner(),
+        "disks": disks_test_runner()
+    }
+    return report
