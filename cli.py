@@ -5,14 +5,13 @@ import argparse as ap
 import core.report as report_gen
 import tests.cpu_test as cpu_test
 import tests.disks_test as disks_test
-from datetime import datetime
-import os
 
 parser = ap.ArgumentParser(description="Hardware Diagnostic Tool")
 parser.add_argument("--cpu", action="store_true", help="Run CPU test")
 parser.add_argument("--disks", action="store_true", help="Run Disks test")
 parser.add_argument("--all", action="store_true", help="Run all tests")
 parser.add_argument("--report", nargs='?', const='auto', help="Save report to file (optional: specify filename or leave empty for auto-generated name)")
+parser.add_argument("--gpu", action="store_true", help="Run GPU test")
 
 def main():
    args = parser.parse_args()
@@ -80,6 +79,16 @@ def main():
       time.sleep(1)
       print("Disks Test Data:")
       pprint.pprint(disks_result["data"])
+   elif args.gpu:
+      print("\nRunning GPU Test...")
+      time.sleep(1)
+      gpu_result = runner.gpu_test_runner()
+      print("GPU Test Result:", gpu_result["status"])
+      time.sleep(1)
+      print("GPU Test Message:", gpu_result["message"])
+      time.sleep(1)
+      print("GPU Test Data:")
+      pprint.pprint(gpu_result["data"])
 
 
 if __name__ == "__main__":
