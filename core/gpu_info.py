@@ -4,9 +4,6 @@ import subprocess
 
 
 class GPUInfo:
-    def __init__(self):
-        pass
-    
     @staticmethod
     def _run(cmd):
         try:

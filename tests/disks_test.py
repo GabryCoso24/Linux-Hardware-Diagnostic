@@ -20,6 +20,8 @@ class DisksTest:
             "disk_count": disks_info.DiskInfo.physical_disk_count(),
             "disk_usage": disks_info.DiskInfo.physical_disk_usage(),
             "disk_status": disks_info.DiskInfo.disk_status(),
+            "disk_sectors": disks_info.DiskInfo.physical_disk_sectors(),
+            "disk_sector_status": disks_info.DiskInfo.disk_sector_status(),
         }
     
     def _evaluate(self, info: dict) -> TestResult:
@@ -60,13 +62,31 @@ class DisksTest:
         )
     
     def disk_sectors_test(self):
-        # Placeholder: sector checks are not fully implemented yet in core/disks_info.
-        sector = []
+        statuses = disks_info.DiskInfo.disk_sector_status()
+        if not statuses:
+            return TestResult(
+                name="disk_sectors_test",
+                status=TestStatus.WARN,
+                message="No disk sector data available",
+                data={"disk_sector_status": statuses},
+            )
+
+        worst_status = max((s.get("code", 0) for s in statuses), default=0)
+        if worst_status == 2:
+            message = next((s["message"] for s in statuses if s.get("code") == 2), "Disk sector check failed")
+            status = TestStatus.FAIL
+        elif worst_status == 1:
+            message = next((s["message"] for s in statuses if s.get("code") == 1), "Disk sector check warning")
+            status = TestStatus.WARN
+        else:
+            message = "Disk sectors healthy"
+            status = TestStatus.PASS
+
         return TestResult(
             name="disk_sectors_test",
-            status=TestStatus.PASS,
-            message="Disk sectors healthy",
-            data=sector
+            status=status,
+            message=message,
+            data={"disk_sector_status": statuses},
         )
 
     @property

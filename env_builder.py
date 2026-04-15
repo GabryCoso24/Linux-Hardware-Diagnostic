@@ -70,7 +70,9 @@ class EnvBuilder:
                     self.print_warning("Keeping existing venv")
                     return True
             
-            venv.create(self.venv_path, with_pip=True, clear=True)
+            # On WSL paths mounted from Windows (e.g. /mnt/c), creating symlinks
+            # can fail with EPERM. Force copies for broader compatibility.
+            venv.create(self.venv_path, with_pip=True, clear=True, symlinks=False)
             self.print_success(f"Virtual environment created: {self.venv_path}")
             return True
             

@@ -1,4 +1,4 @@
-#!/home/gabrycoso/linux-hardware-diagnostic/venv/bin/python
+#!/mnt/c/Users/bobbi/Downloads/Linux-Hardware-Diagnostic/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

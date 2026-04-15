@@ -1,9 +1,7 @@
 import time
 import os
 from datetime import datetime
-import core.cpu_info as cpu
-import core.disks_info as disks
-from tests.test_base import TestResult, TestStatus
+from tests.test_base import TestResult
 import json
 
 class Report:
@@ -16,10 +14,15 @@ class Report:
     def generate_report(self, results: list[TestResult] = None) -> dict:
         if results is None:
             results = self._results
+
+        lookup = {r.name: r for r in results}
         report_data = {
             "timestamp": time.time(),
-            "cpu": self._format_result(result=next((r for r in results if r.name == "cpu_test"), None)),
-            "disks": self._format_result(result=next((r for r in results if r.name == "disks_test"), None))
+            "cpu": self._format_result(result=lookup.get("cpu_test")),
+            "disks": self._format_result(result=lookup.get("disks_test")),
+            "gpu": self._format_result(result=lookup.get("gpu_test")),
+            "network": self._format_result(result=lookup.get("network_test")),
+            "usb": self._format_result(result=lookup.get("usb_test")),
         }
         return report_data
     
